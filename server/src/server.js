@@ -1,21 +1,14 @@
 import app from './app.js';
 import config from './config/config.js';
-import { connectDB } from './database/db.js';
+import { connectDB } from './config/database.js';
+import dotenv from 'dotenv';
 
-const startServer = async () => {
-  try {
-    // Conectar a MySQL
-    await connectDB();
-    console.log('Conectado a MySQL');
-    
-    // Iniciar servidor
-    app.listen(config.port, () => {
-      console.log(`Servidor escuchando en puerto ${config.port}`);
-    });
-  } catch (error) {
-    console.error('Error al iniciar servidor:', error);
-    process.exit(1);
-  }
-};
+dotenv.config();
 
-startServer();
+const PORT = config.port || 5000;
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
+  });
+});

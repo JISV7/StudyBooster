@@ -1,4 +1,4 @@
-import User from '../models/User.model.js';
+import User from '../models/userModel.js';
 
 export const registerUser = async (req, res) => {
   try {
@@ -20,5 +20,14 @@ export const registerUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Error del servidor' });
+  }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

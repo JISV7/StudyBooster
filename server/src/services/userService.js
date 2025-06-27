@@ -1,4 +1,4 @@
-import User from '../models/User.model.js';
+import User from '../models/userModel.js';
 
 export const createUserWithVerification = async (userData) => {
   // Verificar si el email está registrado

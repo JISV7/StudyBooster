@@ -1,18 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
-import userRoutes from './routes/user.routes.js';
+import userRoutes from './routes/userRoutes.js';
 import errorHandler from './middlewares/errorHandler.js';
+import { validateUser } from './middlewares/validateUser.js';
 
 const app = express();
 
 // Middlewares
-app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', validateUser, userRoutes);
 
 // Manejo de errores
 app.use(errorHandler);

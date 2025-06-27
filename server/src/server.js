@@ -1,23 +1,21 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import authRoutes from './src/routes/authRoutes.js';
+import app from './app.js';
+import config from './config/config.js';
+import { connectDB } from './database/db.js';
 
-dotenv.config();
-const app = express();
-const PORT = process.env.PORT || 3000;
+const startServer = async () => {
+  try {
+    // Conectar a MySQL
+    await connectDB();
+    console.log('Conectado a MySQL');
+    
+    // Iniciar servidor
+    app.listen(config.port, () => {
+      console.log(`Servidor escuchando en puerto ${config.port}`);
+    });
+  } catch (error) {
+    console.error('Error al iniciar servidor:', error);
+    process.exit(1);
+  }
+};
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
-app.use(express.json());
-app.use(express.static('public'));
-
-// Rutas
-app.use('/auth', authRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Servidor en http://localhost:${PORT}`);
-});
+startServer();
